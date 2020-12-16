@@ -1,0 +1,19 @@
+{
+  "name": "todo-list",
+  "version": "1.0.0",
+  "description": "TODO list implementation",
+  "scripts": {
+    "test": "mocha src/test/**/*.spec.js",
+    "lint": "eslint **/*.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^8.2.1",
+    "chai": "^4.2.0",
+    "eslint": "^7.15.0"
+  },
+  "main": "src/main/todo-list-cli.js",
+  "bin": {
+    "todo-list-cli": "./src/main/todo-list-cli.js"
+  }
+}
