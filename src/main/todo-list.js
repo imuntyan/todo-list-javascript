@@ -5,7 +5,7 @@ function TodoList() {
 
     this.listEntries = function() {
         let desc = "TODO:\n";
-        todo.forEach(e => desc += e + "\n");
+        todo.forEach(e => desc += JSON.stringify(e) + "\n");
         return desc;
     }
 
@@ -17,7 +17,6 @@ function TodoList() {
         if (priority < 1) {
             throw Error("priority must be positive");
         }
-
         const id = uuidv4();
         todo.push({"id": id, "priority": priority, "desc": desc});
         todo.sort( (a, b) => a.priority - b.priority );
@@ -40,13 +39,23 @@ function TodoList() {
             else
                 prev = todo[index - 1];
 
-            for (let i = prev.priority + 1; i < curr.priority; i++)
-                acc.push(i);
+            if (curr.priority - prev.priority > 1)
+                acc.push([prev.priority + 1, curr.priority - 1]);
 
             return acc;
         }, []);
 
         return gaps;
+    }
+
+    this.getPriorityDescription = function() {
+        const priorities = this.getPriorities();
+        const desc = priorities.reduce((acc, curr) => {
+            if (curr[0] == curr[1]) acc.push(curr[0].toString());
+            else acc.push(curr[0] + "-" + curr[1]);
+            return acc;
+        }, []);
+        return desc;
     }
 
 }

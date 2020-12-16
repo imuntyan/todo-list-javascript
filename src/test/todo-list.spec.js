@@ -41,7 +41,9 @@ describe('TodoList', () => {
         todo.addItem(7, 'Item 7');
         todo.addItem(12, 'Item 12');
         const priorities = todo.getPriorities();
-        expect(priorities).to.be.deep.eq([1, 4, 6, 8, 9, 10, 11]);
+        expect(priorities).to.be.deep.eq([[1,1], [4,4], [6,6], [8,11]]);
+        const priorityDesc = todo.getPriorityDescription();
+        expect(priorityDesc).to.be.deep.eq(["1", "4", "6", "8-11"]);
     });
 
     it('should calculate priorities properly for empty list', () =>{
