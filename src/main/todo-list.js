@@ -14,8 +14,11 @@ function TodoList() {
     }
 
     this.addItem = function(priority, desc) {
+        if (priority === null || priority === undefined) throw new Error("priority is required");
+        if (!Number.isInteger(priority)) throw new Error("priority must be numeric");
+        if (!desc) throw new Error("description is required");
         if (priority < 1) {
-            throw Error("priority must be positive");
+            throw new Error("priority must be positive");
         }
         const id = uuidv4();
         todo.push({"id": id, "priority": priority, "desc": desc});

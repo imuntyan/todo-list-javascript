@@ -17,11 +17,31 @@ describe('TodoList', () => {
         todo.addItem(5, 'Item 5');
         expect(todo.getEntries().length).to.be.eq(1);
     });
+
     it('should not be able to add items with priority < 1', () =>{
         expect(todo.getEntries().length).to.be.eq(0);
         expect(todo.addItem.bind(todo, 0, 'Item 0')).to.throw("priority must be positive");
         expect(todo.addItem.bind(todo, -1, 'Item -1')).to.throw("priority must be positive");
         expect(todo.addItem.bind(todo, -42, 'Item -42')).to.throw("priority must be positive");
+    });
+
+    it('should not be able to add items with empty priority', () =>{
+        expect(todo.getEntries().length).to.be.eq(0);
+        expect(todo.addItem.bind(todo, undefined, 'Item 0')).to.throw("priority is required");
+        expect(todo.addItem.bind(todo, null, 'Item 0')).to.throw("priority is required");
+    });
+
+    it('should not be able to add items with non-numeric priority', () =>{
+        expect(todo.getEntries().length).to.be.eq(0);
+        expect(todo.addItem.bind(todo, '1', 'Item 0')).to.throw("priority must be numeric");
+        expect(todo.addItem.bind(todo, '', 'Item 0')).to.throw("priority must be numeric");
+        expect(todo.addItem.bind(todo, NaN, 'Item 0')).to.throw("priority must be numeric");
+    });
+
+    it('should not be able to add items with missing description', () =>{
+        expect(todo.getEntries().length).to.be.eq(0);
+        expect(todo.addItem.bind(todo, 1, '')).to.throw("description is required");
+        expect(todo.addItem.bind(todo, 2)).to.throw("description is required");
     });
 
     it('should be able to remove items', () =>{
