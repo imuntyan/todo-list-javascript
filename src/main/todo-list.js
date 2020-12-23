@@ -35,20 +35,18 @@ function TodoList() {
     this.getPriorities = function() {
         if (todo.length == 0) return [];
 
-        const gaps = todo.reduce((acc, curr, index) => {
-            let prev;
-            if (index == 0)
-                prev = {"id": null, priority: 0, desc: null};
-            else
-                prev = todo[index - 1];
+        const gaps = todo.reduce((acc, curr) => {
+            const prev = acc.prev;
+            const priorities = acc.priorities;
 
             if (curr.priority - prev.priority > 1)
-                acc.push([prev.priority + 1, curr.priority - 1]);
+                priorities.push([prev.priority + 1, curr.priority - 1]);
+            acc.prev = curr;
 
             return acc;
-        }, []);
+        }, {priorities: [], prev: {"id": null, priority: 0, desc: null}});
 
-        return gaps;
+        return gaps.priorities;
     }
 
     this.getPriorityDescription = function() {
